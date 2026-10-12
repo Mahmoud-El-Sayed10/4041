@@ -6,3 +6,4 @@ Application developed as part of our university project.
 - Backend
 - Frontend
 - Database
+- Development 
