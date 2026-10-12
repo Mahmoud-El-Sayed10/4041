@@ -1,0 +1,46 @@
+.dashboard { display: flex; flex-direction: column; gap: 24px; max-width: 1100px; }
+
+/* A. Bandeau */
+.welcome {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px;
+}
+.welcome h1 { margin: 4px 0; font-size: 28px; }
+.welcome-date { margin: 0; color: var(--muted); font-size: 14px; text-transform: capitalize; }
+.welcome-text { margin: 0; color: var(--muted); }
+
+/* Boutons */
+.btn-primary, .btn-secondary {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
+  border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #0A4F53; }
+.btn-secondary { border: 1px solid var(--border); color: var(--ink); background: var(--surface); }
+
+/* Cartes */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+}
+.card h2 { margin: 0 0 16px; font-size: 18px; }
+
+/* C. Étapes */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.step { padding: 16px; border-radius: 10px; background: var(--bg); }
+.step h3 { margin: 10px 0 6px; font-size: 16px; }
+.step p { margin: 0; color: var(--muted); font-size: 14px; }
+.step-number {
+  display: inline-flex; width: 32px; height: 32px; border-radius: 50%;
+  align-items: center; justify-content: center;
+  background: var(--accent); color: #fff; font-weight: 600;
+}
+
+/* D. Modèles récents */
+.empty {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 32px; border: 2px dashed var(--border); border-radius: 10px; color: var(--muted);
+}
+.template-list { list-style: none; margin: 0; padding: 0; }
+.template-list li {
+  display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--border);
+}
