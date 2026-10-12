@@ -1,0 +1,142 @@
+table,column,sql_type,nullable,key_membership,default,meaning
+app_user,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+app_user,display_name,text,NO,,,Current displayed name of the person; not unique and not an authentication identifier. Exports capture the displayed name at export time.
+app_user,active,boolean,NO,,true,Whether the local account may use the application. The backend checks this on every request; deactivation preserves authorship.
+app_user,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+app_user,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+auth_identity,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+auth_identity,user_id,uuid,NO,FK,,Local account associated with this verified external identity. This association cannot be reassigned by an UPDATE.
+auth_identity,issuer,text,NO,UK,,Identity-provider issuer identifier. It is paired with subject for uniqueness; no particular OIDC provider is configured by this schema.
+auth_identity,subject,text,NO,UK,,Stable subject identifier issued by that provider. Never use display name or email alone to match a local account.
+auth_identity,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+app_role,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+app_role,code,text,NO,UK,,Application role code: admin or researcher. This is not a PostgreSQL login role; the same person may have both.
+app_role,label,text,NO,,,"Display label for the application role; authorization uses code, not this label."
+app_user_role,user_id,uuid,NO,PK;FK,,User receiving the application role; first component of the composite primary key.
+app_user_role,role_id,uuid,NO,PK;FK,,Assigned application role; second component of the composite primary key.
+equipment,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+equipment,code,text,NO,UK,,Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.
+equipment,name,text,NO,,,Current machine name. The finalized equipment snapshot preserves its historical displayed name.
+equipment,description,text,YES,,,Optional descriptive text. SQL imposes no length limit on this column.
+equipment,active,boolean,NO,,true,Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.
+equipment,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+equipment,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+equipment,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+form_template,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+form_template,equipment_id,uuid,NO,FK,,The single machine to which this reusable template belongs. The association is fixed after creation.
+form_template,created_by_user_id,uuid,NO,FK,,User who originally created the template. Template-management authorization requires the admin role in the backend.
+form_template,name,text,NO,,,"Current template catalog name, synchronized by the backend with the newest definition title. Historical rendering uses the versioned title."
+form_template,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+form_template,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+form_template,archived_at,timestamptz,YES,,,"Template archive timestamp. NULL means available, subject to the machine being active. Existing submissions retain their original version."
+template_version,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+template_version,template_id,uuid,NO,UK;FK,,Reusable template whose definition is frozen by this row.
+template_version,version_no,integer,NO,UK,,Positive version number within one template; not globally unique. The backend allocates consecutive numbers under the template lock.
+template_version,created_by_user_id,uuid,NO,FK,,Author of this version. May differ from the original template creator.
+template_version,definition,jsonb,NO,,,"Complete immutable JSON object containing schema format, title, instructions, ordered field nodes, options and rules. SQL checks object shape only."
+template_version,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+submission,id,uuid,NO,PK;UK;FK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+submission,template_version_id,uuid,NO,UK;FK,,"Exact template version used for this execution; fixed for drafts, finalization and every later correction."
+submission,created_by_user_id,uuid,NO,FK,,Original researcher who created this execution and owns it. Ownership is immutable.
+submission,status,text,NO,,'draft'::text,"draft or submitted. Finalization requires a current revision, project/sample context, snapshots and first-submission timestamp."
+submission,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+submission,current_revision_no,integer,YES,FK,,"NULL for a draft; positive current finalized revision number for submitted. Together with this row id, references a revision of this same submission."
+submission,project_reference,text,YES,,,"System project context: optional in draft, required when submitted; 1–200 characters when present, without leading/trailing whitespace. Not a catalog FK or unique key."
+submission,sample_reference,text,YES,,,"System sample context: optional in draft, required when submitted; 1–200 characters when present, without leading/trailing whitespace. Does not define ownership or inventory membership."
+submission,answers,jsonb,NO,,'{}'::jsonb,Current JSON answer object. Drafts retain saved hidden fields/inactive repeat instances; submitted content is the active projection synchronized with the current revision by the backend.
+submission,equipment_snapshot,jsonb,YES,,,"Historical equipment context JSON object. SQL permits NULL or an object in draft, but requires an object when submitted. Snapshot completeness is a backend rule."
+submission,reference_snapshot,jsonb,YES,,,"Historical resource/unit context JSON object. Optional in draft, required when submitted; an empty object is valid when no references are used."
+submission,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+submission,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+submission,submitted_at,timestamptz,YES,,,NULL for a draft; time of first finalization for a submitted execution. A trigger preserves it through all later corrections.
+submission,archived_at,timestamptz,YES,,,Archive timestamp; NULL means unarchived. The backend controls archive/restore and blocks ordinary edits while archived.
+submission_revision,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+submission_revision,submission_id,uuid,NO,UK;FK,,Execution whose finalized state is captured. The pair with revision_no is the natural revision key.
+submission_revision,revision_no,integer,NO,UK,,Positive revision number within that submission. Revision 1 is the first finalization; later consecutive numbers are allocated by the backend.
+submission_revision,created_by_user_id,uuid,NO,FK,,"Researcher who finalized this revision, including an authorized editor; may differ from the execution owner."
+submission_revision,correction_reason,text,YES,,,"Optional explanation of a correction, at most 1,000 characters. SQL does not require it or restrict it to revisions after the first."
+submission_revision,project_reference,text,NO,,,"Immutable project context for this revision; required, 1–200 characters, no leading/trailing whitespace."
+submission_revision,sample_reference,text,NO,,,"Immutable sample context for this revision; required, 1–200 characters, no leading/trailing whitespace."
+submission_revision,answers,jsonb,NO,,,Complete immutable active answer projection at this finalization. Old revisions are not modified by later corrections.
+submission_revision,equipment_snapshot,jsonb,NO,,,Immutable equipment identity/code/name context; required JSON object. Corrections retain the base equipment context by backend policy.
+submission_revision,reference_snapshot,jsonb,NO,,,Immutable resource/unit contexts used by active answers. Required JSON object; may be empty when no resource/unit is used.
+submission_revision,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+experiment,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+experiment,created_by_user_id,uuid,NO,FK,,Original researcher who created and owns the experiment; ownership is immutable.
+experiment,title,text,NO,,,Current experiment title. Each export captures the title that existed when that export was requested.
+experiment,description,text,YES,,,Optional descriptive text. SQL imposes no length limit on this column.
+experiment,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+experiment,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+experiment,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+experiment,archived_at,timestamptz,YES,,,Archive timestamp; NULL means unarchived. The backend controls archive/restore and blocks ordinary edits while archived.
+experiment_step,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+experiment_step,experiment_id,uuid,NO,UK;FK,,Experiment containing this current step. The step cannot be moved to another experiment by UPDATE.
+experiment_step,template_version_id,uuid,NO,FK,,Required planned template version even before a submission exists. An attached submission must use this same version.
+experiment_step,submission_id,uuid,YES,UK;FK,,Optional attached execution. A non-NULL submission can appear in at most one current step across all experiments.
+experiment_step,pinned_revision_no,integer,YES,FK,,Optional selected revision number belonging to the attached submission. A non-NULL value requires submission_id; later corrections do not automatically change this pin.
+experiment_step,position,integer,NO,UK,,Positive order within the experiment. Uniqueness is deferrable to allow reordering; the backend checks final contiguous positions and the 100-step limit.
+reference_resource,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+reference_resource,kind,text,NO,UK,,"Open text resource category, initially material. This is not a closed SQL enum. The category is fixed after creation."
+reference_resource,code,text,NO,UK,,"Stable resource code, unique only together with kind. A new identity is required when the resource meaning changes."
+reference_resource,label,text,NO,,,Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.
+reference_resource,description,text,YES,,,Optional descriptive text. SQL imposes no length limit on this column.
+reference_resource,active,boolean,NO,,true,Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.
+reference_resource,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+reference_resource,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+reference_resource,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+resource_group,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+resource_group,code,text,NO,UK,,Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.
+resource_group,label,text,NO,,,Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.
+resource_group,active,boolean,NO,,true,Whether this group is eligible for new reference selections. Saved inactive choices require backend proof of prior use in the same field/instance.
+resource_group,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+resource_group,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+resource_group,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+resource_group_member,group_id,uuid,NO,PK;FK,,Group containing the resource; first component of the retained membership primary key.
+resource_group_member,resource_id,uuid,NO,PK;FK,,Resource included in the group; second component of the retained membership primary key.
+resource_group_member,position,integer,NO,,,"Positive display position, unique within the group only for active memberships. Inactive rows may reuse a position."
+resource_group_member,active,boolean,NO,,true,"Whether this membership currently permits new selections. Remove a membership by setting false, rather than deleting its row."
+unit,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+unit,code,text,NO,UK,,Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.
+unit,symbol,text,NO,,,Current unit symbol used for display. Historical revisions retain the captured symbol.
+unit,label,text,NO,,,Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.
+unit,dimension,text,NO,,,"Stable open text dimension, such as mass. This is not a SQL enum; the backend validates dimension compatibility and allowed units."
+unit,active,boolean,NO,,true,Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.
+unit,lock_version,integer,NO,,1,Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.
+unit,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+unit,updated_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.
+submission_grant,submission_id,uuid,NO,PK;FK,,Submission shared by this current grant; part of the composite primary key.
+submission_grant,user_id,uuid,NO,PK;FK,,"Named recipient of the submission grant. Read permits finalized history; edit also permits drafts and corrections, subject to current authorization."
+submission_grant,access_level,text,NO,,,"Explicit grant level: read or edit. Edit includes read but does not confer sharing, archive or ownership rights."
+submission_grant,granted_by_user_id,uuid,NO,FK,,User who most recently issued or changed the grant. The backend must verify that this actor owns the target object.
+submission_grant,granted_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the current grant issuance; the backend refreshes it when regranting or changing the grant.
+submission_grant,revoked_at,timestamptz,YES,,,NULL means the grant is unrevoked; otherwise this is its revocation time. An unrevoked row alone does not establish authorization.
+experiment_grant,experiment_id,uuid,NO,PK;FK,,Experiment shared by this current grant; part of the composite primary key.
+experiment_grant,user_id,uuid,NO,PK;FK,,Named recipient of the experiment grant. This grant never implicitly shares the experiment’s source submissions.
+experiment_grant,access_level,text,NO,,,"Explicit grant level: read or edit. Edit includes read but does not confer sharing, archive or ownership rights."
+experiment_grant,granted_by_user_id,uuid,NO,FK,,User who most recently issued or changed the grant. The backend must verify that this actor owns the target object.
+experiment_grant,granted_at,timestamptz,NO,,CURRENT_TIMESTAMP,Timestamp of the current grant issuance; the backend refreshes it when regranting or changing the grant.
+experiment_grant,revoked_at,timestamptz,YES,,,NULL means the grant is unrevoked; otherwise this is its revocation time. An unrevoked row alone does not establish authorization.
+experiment_export,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+experiment_export,experiment_id,uuid,NO,FK,,Experiment whose composition was captured; retained even if its current steps later change.
+experiment_export,created_by_user_id,uuid,NO,UK;FK,,Researcher who requested this export; part of the request-idempotency uniqueness key.
+experiment_export,request_id,uuid,NO,UK,,"UUID for an idempotent export request, unique per requester. The backend also compares request content before treating a repeated key as a replay."
+experiment_export,source_lock_version,integer,NO,,,"Positive experiment lock_version captured for this request. Historical version evidence, not an FK or an automatic comparison with the current experiment."
+experiment_export,report_format_version,text,NO,,,Identifier of the renderer/report format used for this captured report. Frozen with the export; no separate format catalog is assumed.
+experiment_export,status,text,NO,,'pending'::text,"Rendering attempt state: pending, ready or failed. SQL validates output metadata for each state and freezes terminal attempts."
+experiment_export,manifest,jsonb,NO,,,"Immutable complete JSON capture of the report context, order and displayed names. SQL checks only that it is an object; the backend ensures agreement with export items."
+experiment_export,pdf_storage_key,text,YES,,,Opaque private storage key. NULL while pending/failed; required and nonblank when ready. It is not a public URL or an authorization credential.
+experiment_export,pdf_sha256,text,YES,,,SHA-256 file digest encoded as exactly 64 lowercase hexadecimal characters. NULL while pending/failed; required when ready. The backend verifies it against file bytes.
+experiment_export,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.
+experiment_export,completed_at,timestamptz,YES,,,NULL while pending; required completion/failure timestamp for ready/failed. SQL does not enforce chronological ordering against created_at.
+experiment_export_item,export_id,uuid,NO,PK;FK,,Parent saved export capture; part of the composite primary key.
+experiment_export_item,position,integer,NO,PK,,Positive frozen display order inside this export. Together with export_id identifies one item.
+experiment_export_item,source_step_id,uuid,NO,,,Required UUID tracing the original current step. Deliberately not an FK so deleting the current step preserves this export.
+experiment_export_item,submission_id,uuid,NO,FK,,"Source submission identifier, paired with revision_no to reference one exact immutable revision."
+experiment_export_item,revision_no,integer,NO,FK,,Revision of that same submission captured by this export. Not globally unique and not automatically advanced after correction.
+audit_event,id,uuid,NO,PK,gen_random_uuid(),Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.
+audit_event,actor_user_id,uuid,NO,FK,,Existing local user who performed or initiated the recorded action. SQL does not check that the account is currently active.
+audit_event,action,text,NO,,,"Controlled event code. Accepted values are listed below; the backend chooses the code, not the client."
+audit_event,object_type,text,NO,,,"Controlled type of the affected object. Its compatibility with action is a backend rule, not a cross-field SQL CHECK."
+audit_event,object_id,uuid,NO,,,Required UUID identifying the affected object for audit trace. Polymorphic and deliberately not an FK.
+audit_event,details,jsonb,NO,,'{}'::jsonb,"Metadata-only JSON object. SQL checks object shape but cannot prevent scientific answers, credentials or secrets; the backend must exclude them."
+audit_event,created_at,timestamptz,NO,,CURRENT_TIMESTAMP,Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.

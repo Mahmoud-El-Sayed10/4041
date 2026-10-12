@@ -1,0 +1,7 @@
+{
+  "name": "yes4041-database-checks",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node tests/check_pglite.mjs" },
+  "devDependencies": { "@electric-sql/pglite": "0.5.8" }
+}

@@ -1,0 +1,4744 @@
+{
+  "tables": [
+    "app_role",
+    "app_user",
+    "app_user_role",
+    "audit_event",
+    "auth_identity",
+    "equipment",
+    "experiment",
+    "experiment_export",
+    "experiment_export_item",
+    "experiment_grant",
+    "experiment_step",
+    "form_template",
+    "reference_resource",
+    "resource_group",
+    "resource_group_member",
+    "submission",
+    "submission_grant",
+    "submission_revision",
+    "template_version",
+    "unit"
+  ],
+  "columns": [
+    {
+      "data_type": "uuid",
+      "table_name": "app_role",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "app_role",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "app_role",
+      "column_name": "label",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "app_user",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "app_user",
+      "column_name": "display_name",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "bool",
+      "table_name": "app_user",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "app_user",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "app_user",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "app_user_role",
+      "column_name": "user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "app_user_role",
+      "column_name": "role_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "column_name": "actor_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "audit_event",
+      "column_name": "action",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "audit_event",
+      "column_name": "object_type",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "audit_event",
+      "column_name": "object_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "audit_event",
+      "column_name": "details",
+      "is_nullable": "NO",
+      "column_default": "'{}'::jsonb",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "audit_event",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "auth_identity",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "auth_identity",
+      "column_name": "user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "auth_identity",
+      "column_name": "issuer",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "auth_identity",
+      "column_name": "subject",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "auth_identity",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "equipment",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "equipment",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "equipment",
+      "column_name": "name",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "equipment",
+      "column_name": "description",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "bool",
+      "table_name": "equipment",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "int4",
+      "table_name": "equipment",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "equipment",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "equipment",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment",
+      "column_name": "title",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment",
+      "column_name": "description",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment",
+      "column_name": "archived_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export",
+      "column_name": "experiment_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export",
+      "column_name": "request_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment_export",
+      "column_name": "source_lock_version",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment_export",
+      "column_name": "report_format_version",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment_export",
+      "column_name": "status",
+      "is_nullable": "NO",
+      "column_default": "'pending'::text",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "experiment_export",
+      "column_name": "manifest",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment_export",
+      "column_name": "pdf_storage_key",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 9
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment_export",
+      "column_name": "pdf_sha256",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment_export",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 11
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment_export",
+      "column_name": "completed_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 12
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export_item",
+      "column_name": "export_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment_export_item",
+      "column_name": "position",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export_item",
+      "column_name": "source_step_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_export_item",
+      "column_name": "submission_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment_export_item",
+      "column_name": "revision_no",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_grant",
+      "column_name": "experiment_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_grant",
+      "column_name": "user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "experiment_grant",
+      "column_name": "access_level",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_grant",
+      "column_name": "granted_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment_grant",
+      "column_name": "granted_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "experiment_grant",
+      "column_name": "revoked_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_step",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_step",
+      "column_name": "experiment_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_step",
+      "column_name": "template_version_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "experiment_step",
+      "column_name": "submission_id",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment_step",
+      "column_name": "pinned_revision_no",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "int4",
+      "table_name": "experiment_step",
+      "column_name": "position",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "form_template",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "form_template",
+      "column_name": "equipment_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "form_template",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "form_template",
+      "column_name": "name",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "form_template",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "form_template",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "form_template",
+      "column_name": "archived_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "reference_resource",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "reference_resource",
+      "column_name": "kind",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "reference_resource",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "reference_resource",
+      "column_name": "label",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "text",
+      "table_name": "reference_resource",
+      "column_name": "description",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "bool",
+      "table_name": "reference_resource",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "int4",
+      "table_name": "reference_resource",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "reference_resource",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "reference_resource",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 9
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "resource_group",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "resource_group",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "resource_group",
+      "column_name": "label",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "bool",
+      "table_name": "resource_group",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "resource_group",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "resource_group",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "resource_group",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "resource_group_member",
+      "column_name": "group_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "resource_group_member",
+      "column_name": "resource_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "int4",
+      "table_name": "resource_group_member",
+      "column_name": "position",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "bool",
+      "table_name": "resource_group_member",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission",
+      "column_name": "template_version_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission",
+      "column_name": "status",
+      "is_nullable": "NO",
+      "column_default": "'draft'::text",
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "int4",
+      "table_name": "submission",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "int4",
+      "table_name": "submission",
+      "column_name": "current_revision_no",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission",
+      "column_name": "project_reference",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission",
+      "column_name": "sample_reference",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission",
+      "column_name": "answers",
+      "is_nullable": "NO",
+      "column_default": "'{}'::jsonb",
+      "ordinal_position": 9
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission",
+      "column_name": "equipment_snapshot",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 10
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission",
+      "column_name": "reference_snapshot",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 11
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 12
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 13
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission",
+      "column_name": "submitted_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 14
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission",
+      "column_name": "archived_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 15
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_grant",
+      "column_name": "submission_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_grant",
+      "column_name": "user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission_grant",
+      "column_name": "access_level",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_grant",
+      "column_name": "granted_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission_grant",
+      "column_name": "granted_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission_grant",
+      "column_name": "revoked_at",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_revision",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_revision",
+      "column_name": "submission_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "int4",
+      "table_name": "submission_revision",
+      "column_name": "revision_no",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "submission_revision",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission_revision",
+      "column_name": "correction_reason",
+      "is_nullable": "YES",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission_revision",
+      "column_name": "project_reference",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "text",
+      "table_name": "submission_revision",
+      "column_name": "sample_reference",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission_revision",
+      "column_name": "answers",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission_revision",
+      "column_name": "equipment_snapshot",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 9
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "submission_revision",
+      "column_name": "reference_snapshot",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 10
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "submission_revision",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 11
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "template_version",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "template_version",
+      "column_name": "template_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "int4",
+      "table_name": "template_version",
+      "column_name": "version_no",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "template_version",
+      "column_name": "created_by_user_id",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "jsonb",
+      "table_name": "template_version",
+      "column_name": "definition",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "template_version",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "uuid",
+      "table_name": "unit",
+      "column_name": "id",
+      "is_nullable": "NO",
+      "column_default": "gen_random_uuid()",
+      "ordinal_position": 1
+    },
+    {
+      "data_type": "text",
+      "table_name": "unit",
+      "column_name": "code",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 2
+    },
+    {
+      "data_type": "text",
+      "table_name": "unit",
+      "column_name": "symbol",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 3
+    },
+    {
+      "data_type": "text",
+      "table_name": "unit",
+      "column_name": "label",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 4
+    },
+    {
+      "data_type": "text",
+      "table_name": "unit",
+      "column_name": "dimension",
+      "is_nullable": "NO",
+      "column_default": null,
+      "ordinal_position": 5
+    },
+    {
+      "data_type": "bool",
+      "table_name": "unit",
+      "column_name": "active",
+      "is_nullable": "NO",
+      "column_default": "true",
+      "ordinal_position": 6
+    },
+    {
+      "data_type": "int4",
+      "table_name": "unit",
+      "column_name": "lock_version",
+      "is_nullable": "NO",
+      "column_default": "1",
+      "ordinal_position": 7
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "unit",
+      "column_name": "created_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 8
+    },
+    {
+      "data_type": "timestamptz",
+      "table_name": "unit",
+      "column_name": "updated_at",
+      "is_nullable": "NO",
+      "column_default": "CURRENT_TIMESTAMP",
+      "ordinal_position": 9
+    }
+  ],
+  "indexes": [
+    {
+      "indexdef": "CREATE UNIQUE INDEX app_role_code_key ON public.app_role USING btree (code)",
+      "indexname": "app_role_code_key",
+      "tablename": "app_role",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX app_role_pkey ON public.app_role USING btree (id)",
+      "indexname": "app_role_pkey",
+      "tablename": "app_role",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX app_user_pkey ON public.app_user USING btree (id)",
+      "indexname": "app_user_pkey",
+      "tablename": "app_user",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX app_user_role_pkey ON public.app_user_role USING btree (user_id, role_id)",
+      "indexname": "app_user_role_pkey",
+      "tablename": "app_user_role",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_app_user_role_role ON public.app_user_role USING btree (role_id)",
+      "indexname": "ix_app_user_role_role",
+      "tablename": "app_user_role",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX audit_event_pkey ON public.audit_event USING btree (id)",
+      "indexname": "audit_event_pkey",
+      "tablename": "audit_event",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_audit_event_actor_date ON public.audit_event USING btree (actor_user_id, created_at DESC)",
+      "indexname": "ix_audit_event_actor_date",
+      "tablename": "audit_event",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_audit_event_object_date ON public.audit_event USING btree (object_type, object_id, created_at DESC)",
+      "indexname": "ix_audit_event_object_date",
+      "tablename": "audit_event",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX auth_identity_pkey ON public.auth_identity USING btree (id)",
+      "indexname": "auth_identity_pkey",
+      "tablename": "auth_identity",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_auth_identity_user ON public.auth_identity USING btree (user_id)",
+      "indexname": "ix_auth_identity_user",
+      "tablename": "auth_identity",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_auth_identity_issuer_subject ON public.auth_identity USING btree (issuer, subject)",
+      "indexname": "uq_auth_identity_issuer_subject",
+      "tablename": "auth_identity",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX equipment_code_key ON public.equipment USING btree (code)",
+      "indexname": "equipment_code_key",
+      "tablename": "equipment",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX equipment_pkey ON public.equipment USING btree (id)",
+      "indexname": "equipment_pkey",
+      "tablename": "equipment",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX experiment_pkey ON public.experiment USING btree (id)",
+      "indexname": "experiment_pkey",
+      "tablename": "experiment",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_experiment_creator_created ON public.experiment USING btree (created_by_user_id, created_at DESC)",
+      "indexname": "ix_experiment_creator_created",
+      "tablename": "experiment",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX experiment_export_pkey ON public.experiment_export USING btree (id)",
+      "indexname": "experiment_export_pkey",
+      "tablename": "experiment_export",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_experiment_export_experiment_created ON public.experiment_export USING btree (experiment_id, created_at DESC)",
+      "indexname": "ix_experiment_export_experiment_created",
+      "tablename": "experiment_export",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_experiment_export_request ON public.experiment_export USING btree (created_by_user_id, request_id)",
+      "indexname": "uq_experiment_export_request",
+      "tablename": "experiment_export",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX experiment_export_item_pkey ON public.experiment_export_item USING btree (export_id, \"position\")",
+      "indexname": "experiment_export_item_pkey",
+      "tablename": "experiment_export_item",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_export_item_revision ON public.experiment_export_item USING btree (submission_id, revision_no)",
+      "indexname": "ix_export_item_revision",
+      "tablename": "experiment_export_item",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX experiment_grant_pkey ON public.experiment_grant USING btree (experiment_id, user_id)",
+      "indexname": "experiment_grant_pkey",
+      "tablename": "experiment_grant",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_experiment_grant_user ON public.experiment_grant USING btree (user_id)",
+      "indexname": "ix_experiment_grant_user",
+      "tablename": "experiment_grant",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX experiment_step_pkey ON public.experiment_step USING btree (id)",
+      "indexname": "experiment_step_pkey",
+      "tablename": "experiment_step",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_experiment_step_template_version ON public.experiment_step USING btree (template_version_id)",
+      "indexname": "ix_experiment_step_template_version",
+      "tablename": "experiment_step",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_experiment_step_position ON public.experiment_step USING btree (experiment_id, \"position\")",
+      "indexname": "uq_experiment_step_position",
+      "tablename": "experiment_step",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_experiment_step_submission ON public.experiment_step USING btree (submission_id)",
+      "indexname": "uq_experiment_step_submission",
+      "tablename": "experiment_step",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX form_template_pkey ON public.form_template USING btree (id)",
+      "indexname": "form_template_pkey",
+      "tablename": "form_template",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_form_template_creator ON public.form_template USING btree (created_by_user_id)",
+      "indexname": "ix_form_template_creator",
+      "tablename": "form_template",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_form_template_equipment ON public.form_template USING btree (equipment_id)",
+      "indexname": "ix_form_template_equipment",
+      "tablename": "form_template",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX reference_resource_pkey ON public.reference_resource USING btree (id)",
+      "indexname": "reference_resource_pkey",
+      "tablename": "reference_resource",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_reference_resource_kind_code ON public.reference_resource USING btree (kind, code)",
+      "indexname": "uq_reference_resource_kind_code",
+      "tablename": "reference_resource",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX resource_group_code_key ON public.resource_group USING btree (code)",
+      "indexname": "resource_group_code_key",
+      "tablename": "resource_group",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX resource_group_pkey ON public.resource_group USING btree (id)",
+      "indexname": "resource_group_pkey",
+      "tablename": "resource_group",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_resource_group_member_resource ON public.resource_group_member USING btree (resource_id)",
+      "indexname": "ix_resource_group_member_resource",
+      "tablename": "resource_group_member",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX resource_group_member_pkey ON public.resource_group_member USING btree (group_id, resource_id)",
+      "indexname": "resource_group_member_pkey",
+      "tablename": "resource_group_member",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_resource_group_member_active_position ON public.resource_group_member USING btree (group_id, \"position\") WHERE active",
+      "indexname": "uq_resource_group_member_active_position",
+      "tablename": "resource_group_member",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_submission_creator_created ON public.submission USING btree (created_by_user_id, created_at DESC)",
+      "indexname": "ix_submission_creator_created",
+      "tablename": "submission",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_submission_template_version ON public.submission USING btree (template_version_id)",
+      "indexname": "ix_submission_template_version",
+      "tablename": "submission",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX submission_pkey ON public.submission USING btree (id)",
+      "indexname": "submission_pkey",
+      "tablename": "submission",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_submission_id_template_version ON public.submission USING btree (id, template_version_id)",
+      "indexname": "uq_submission_id_template_version",
+      "tablename": "submission",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_submission_grant_user ON public.submission_grant USING btree (user_id)",
+      "indexname": "ix_submission_grant_user",
+      "tablename": "submission_grant",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX submission_grant_pkey ON public.submission_grant USING btree (submission_id, user_id)",
+      "indexname": "submission_grant_pkey",
+      "tablename": "submission_grant",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_submission_revision_creator ON public.submission_revision USING btree (created_by_user_id)",
+      "indexname": "ix_submission_revision_creator",
+      "tablename": "submission_revision",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX submission_revision_pkey ON public.submission_revision USING btree (id)",
+      "indexname": "submission_revision_pkey",
+      "tablename": "submission_revision",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_submission_revision_number ON public.submission_revision USING btree (submission_id, revision_no)",
+      "indexname": "uq_submission_revision_number",
+      "tablename": "submission_revision",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE INDEX ix_template_version_creator ON public.template_version USING btree (created_by_user_id)",
+      "indexname": "ix_template_version_creator",
+      "tablename": "template_version",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX template_version_pkey ON public.template_version USING btree (id)",
+      "indexname": "template_version_pkey",
+      "tablename": "template_version",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX uq_template_version_number ON public.template_version USING btree (template_id, version_no)",
+      "indexname": "uq_template_version_number",
+      "tablename": "template_version",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX unit_code_key ON public.unit USING btree (code)",
+      "indexname": "unit_code_key",
+      "tablename": "unit",
+      "schemaname": "public",
+      "tablespace": null
+    },
+    {
+      "indexdef": "CREATE UNIQUE INDEX unit_pkey ON public.unit USING btree (id)",
+      "indexname": "unit_pkey",
+      "tablename": "unit",
+      "schemaname": "public",
+      "tablespace": null
+    }
+  ],
+  "constraints": [
+    {
+      "name": "app_role_code_check",
+      "type": "c",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((code = ANY (ARRAY['admin'::text, 'researcher'::text])))",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_code_key",
+      "type": "u",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (code)",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_code_not_null",
+      "type": "n",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL code",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_label_check",
+      "type": "c",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(label)) > 0))",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_label_not_null",
+      "type": "n",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL label",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_role_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "app_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_display_name_check",
+      "type": "c",
+      "columns": [
+        "display_name"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(display_name)) > 0))",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_display_name_not_null",
+      "type": "n",
+      "columns": [
+        "display_name"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL display_name",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "app_user",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_role_pkey",
+      "type": "p",
+      "columns": [
+        "user_id",
+        "role_id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (user_id, role_id)",
+      "table_name": "app_user_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_role_role_id_fkey",
+      "type": "f",
+      "columns": [
+        "role_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (role_id) REFERENCES app_role(id)",
+      "table_name": "app_user_role",
+      "referenced_table": "app_role",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "app_user_role_role_id_not_null",
+      "type": "n",
+      "columns": [
+        "role_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL role_id",
+      "table_name": "app_user_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "app_user_role_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_user(id)",
+      "table_name": "app_user_role",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "app_user_role_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL user_id",
+      "table_name": "app_user_role",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_action_check",
+      "type": "c",
+      "columns": [
+        "action"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((action = ANY (ARRAY['role.granted'::text, 'role.revoked'::text, 'user.activated'::text, 'user.deactivated'::text, 'catalog.created'::text, 'catalog.updated'::text, 'catalog.activated'::text, 'catalog.deactivated'::text, 'template.created'::text, 'template.version_created'::text, 'template.archived'::text, 'template.restored'::text, 'grant.created'::text, 'grant.updated'::text, 'grant.revoked'::text, 'submission.archived'::text, 'submission.restored'::text, 'experiment.archived'::text, 'experiment.restored'::text, 'export.requested'::text, 'export.ready'::text, 'export.failed'::text])))",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_action_not_null",
+      "type": "n",
+      "columns": [
+        "action"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL action",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_actor_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "actor_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (actor_user_id) REFERENCES app_user(id)",
+      "table_name": "audit_event",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "audit_event_actor_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "actor_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL actor_user_id",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_details_check",
+      "type": "c",
+      "columns": [
+        "details"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(details) = 'object'::text))",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_details_not_null",
+      "type": "n",
+      "columns": [
+        "details"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL details",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_object_id_not_null",
+      "type": "n",
+      "columns": [
+        "object_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL object_id",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_object_type_check",
+      "type": "c",
+      "columns": [
+        "object_type"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((object_type = ANY (ARRAY['app_user'::text, 'equipment'::text, 'form_template'::text, 'submission'::text, 'experiment'::text, 'reference_resource'::text, 'resource_group'::text, 'unit'::text, 'experiment_export'::text])))",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_object_type_not_null",
+      "type": "n",
+      "columns": [
+        "object_type"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL object_type",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "audit_event_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "audit_event",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_issuer_check",
+      "type": "c",
+      "columns": [
+        "issuer"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(issuer)) > 0))",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_issuer_not_null",
+      "type": "n",
+      "columns": [
+        "issuer"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL issuer",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_subject_check",
+      "type": "c",
+      "columns": [
+        "subject"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(subject)) > 0))",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_subject_not_null",
+      "type": "n",
+      "columns": [
+        "subject"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL subject",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "auth_identity_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_user(id)",
+      "table_name": "auth_identity",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "auth_identity_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL user_id",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_auth_identity_issuer_subject",
+      "type": "u",
+      "columns": [
+        "issuer",
+        "subject"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (issuer, subject)",
+      "table_name": "auth_identity",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_code_check",
+      "type": "c",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(code)) > 0))",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_code_key",
+      "type": "u",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (code)",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_code_not_null",
+      "type": "n",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL code",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_name_check",
+      "type": "c",
+      "columns": [
+        "name"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(name)) > 0))",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_name_not_null",
+      "type": "n",
+      "columns": [
+        "name"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL name",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "equipment_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "equipment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "experiment",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_title_check",
+      "type": "c",
+      "columns": [
+        "title"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(title)) > 0))",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_title_not_null",
+      "type": "n",
+      "columns": [
+        "title"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL title",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "experiment",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_experiment_export_state",
+      "type": "c",
+      "columns": [
+        "status",
+        "completed_at",
+        "pdf_storage_key",
+        "pdf_sha256"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((((status = 'pending'::text) AND (completed_at IS NULL) AND (pdf_storage_key IS NULL) AND (pdf_sha256 IS NULL)) OR ((status = 'failed'::text) AND (completed_at IS NOT NULL) AND (pdf_storage_key IS NULL) AND (pdf_sha256 IS NULL)) OR ((status = 'ready'::text) AND (completed_at IS NOT NULL) AND (pdf_storage_key IS NOT NULL) AND (length(btrim(pdf_storage_key)) > 0) AND (pdf_sha256 IS NOT NULL))))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "experiment_export",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_export_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_experiment_id_fkey",
+      "type": "f",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (experiment_id) REFERENCES experiment(id)",
+      "table_name": "experiment_export",
+      "referenced_table": "experiment",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_export_experiment_id_not_null",
+      "type": "n",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL experiment_id",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_manifest_check",
+      "type": "c",
+      "columns": [
+        "manifest"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(manifest) = 'object'::text))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_manifest_not_null",
+      "type": "n",
+      "columns": [
+        "manifest"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL manifest",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_pdf_sha256_check",
+      "type": "c",
+      "columns": [
+        "pdf_sha256"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((pdf_sha256 ~ '^[0-9a-f]{64}$'::text))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_report_format_version_check",
+      "type": "c",
+      "columns": [
+        "report_format_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(report_format_version)) > 0))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_report_format_version_not_null",
+      "type": "n",
+      "columns": [
+        "report_format_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL report_format_version",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_request_id_not_null",
+      "type": "n",
+      "columns": [
+        "request_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL request_id",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_source_lock_version_check",
+      "type": "c",
+      "columns": [
+        "source_lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((source_lock_version > 0))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_source_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "source_lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL source_lock_version",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_status_check",
+      "type": "c",
+      "columns": [
+        "status"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((status = ANY (ARRAY['pending'::text, 'ready'::text, 'failed'::text])))",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_status_not_null",
+      "type": "n",
+      "columns": [
+        "status"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL status",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_experiment_export_request",
+      "type": "u",
+      "columns": [
+        "created_by_user_id",
+        "request_id"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (created_by_user_id, request_id)",
+      "table_name": "experiment_export",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_export_id_fkey",
+      "type": "f",
+      "columns": [
+        "export_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (export_id) REFERENCES experiment_export(id)",
+      "table_name": "experiment_export_item",
+      "referenced_table": "experiment_export",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_export_item_export_id_not_null",
+      "type": "n",
+      "columns": [
+        "export_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL export_id",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_pkey",
+      "type": "p",
+      "columns": [
+        "export_id",
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (export_id, \"position\")",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_position_check",
+      "type": "c",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((\"position\" > 0))",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_position_not_null",
+      "type": "n",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL \"position\"",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_revision_no_check",
+      "type": "c",
+      "columns": [
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((revision_no > 0))",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_revision_no_not_null",
+      "type": "n",
+      "columns": [
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL revision_no",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_source_step_id_not_null",
+      "type": "n",
+      "columns": [
+        "source_step_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL source_step_id",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_export_item_submission_id_not_null",
+      "type": "n",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL submission_id",
+      "table_name": "experiment_export_item",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "fk_export_item_revision",
+      "type": "f",
+      "columns": [
+        "submission_id",
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (submission_id, revision_no) REFERENCES submission_revision(submission_id, revision_no)",
+      "table_name": "experiment_export_item",
+      "referenced_table": "submission_revision",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "submission_id",
+        "revision_no"
+      ]
+    },
+    {
+      "name": "experiment_grant_access_level_check",
+      "type": "c",
+      "columns": [
+        "access_level"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((access_level = ANY (ARRAY['read'::text, 'edit'::text])))",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_access_level_not_null",
+      "type": "n",
+      "columns": [
+        "access_level"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL access_level",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_experiment_id_fkey",
+      "type": "f",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (experiment_id) REFERENCES experiment(id)",
+      "table_name": "experiment_grant",
+      "referenced_table": "experiment",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_grant_experiment_id_not_null",
+      "type": "n",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL experiment_id",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_granted_at_not_null",
+      "type": "n",
+      "columns": [
+        "granted_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL granted_at",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_granted_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "granted_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (granted_by_user_id) REFERENCES app_user(id)",
+      "table_name": "experiment_grant",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_grant_granted_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "granted_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL granted_by_user_id",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_pkey",
+      "type": "p",
+      "columns": [
+        "experiment_id",
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (experiment_id, user_id)",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_grant_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_user(id)",
+      "table_name": "experiment_grant",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_grant_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL user_id",
+      "table_name": "experiment_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_experiment_step_revision_has_submission",
+      "type": "c",
+      "columns": [
+        "pinned_revision_no",
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "CHECK (((pinned_revision_no IS NULL) OR (submission_id IS NOT NULL)))",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_experiment_id_fkey",
+      "type": "f",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (experiment_id) REFERENCES experiment(id)",
+      "table_name": "experiment_step",
+      "referenced_table": "experiment",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_step_experiment_id_not_null",
+      "type": "n",
+      "columns": [
+        "experiment_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL experiment_id",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_pinned_revision_no_check",
+      "type": "c",
+      "columns": [
+        "pinned_revision_no"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((pinned_revision_no > 0))",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_position_check",
+      "type": "c",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((\"position\" > 0))",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_position_not_null",
+      "type": "n",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL \"position\"",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "experiment_step_template_version_id_fkey",
+      "type": "f",
+      "columns": [
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (template_version_id) REFERENCES template_version(id)",
+      "table_name": "experiment_step",
+      "referenced_table": "template_version",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "experiment_step_template_version_id_not_null",
+      "type": "n",
+      "columns": [
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL template_version_id",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "fk_experiment_step_revision",
+      "type": "f",
+      "columns": [
+        "submission_id",
+        "pinned_revision_no"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (submission_id, pinned_revision_no) REFERENCES submission_revision(submission_id, revision_no)",
+      "table_name": "experiment_step",
+      "referenced_table": "submission_revision",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "submission_id",
+        "revision_no"
+      ]
+    },
+    {
+      "name": "fk_experiment_step_submission_version",
+      "type": "f",
+      "columns": [
+        "submission_id",
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (submission_id, template_version_id) REFERENCES submission(id, template_version_id)",
+      "table_name": "experiment_step",
+      "referenced_table": "submission",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id",
+        "template_version_id"
+      ]
+    },
+    {
+      "name": "uq_experiment_step_position",
+      "type": "u",
+      "columns": [
+        "experiment_id",
+        "position"
+      ],
+      "deferrable": true,
+      "definition": "UNIQUE (experiment_id, \"position\") DEFERRABLE",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_experiment_step_submission",
+      "type": "u",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (submission_id)",
+      "table_name": "experiment_step",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "form_template",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "form_template_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_equipment_id_fkey",
+      "type": "f",
+      "columns": [
+        "equipment_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (equipment_id) REFERENCES equipment(id)",
+      "table_name": "form_template",
+      "referenced_table": "equipment",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "form_template_equipment_id_not_null",
+      "type": "n",
+      "columns": [
+        "equipment_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL equipment_id",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_name_check",
+      "type": "c",
+      "columns": [
+        "name"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(name)) > 0))",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_name_not_null",
+      "type": "n",
+      "columns": [
+        "name"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL name",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "form_template_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "form_template",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_code_check",
+      "type": "c",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(code)) > 0))",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_code_not_null",
+      "type": "n",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL code",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_kind_check",
+      "type": "c",
+      "columns": [
+        "kind"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(kind)) > 0))",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_kind_not_null",
+      "type": "n",
+      "columns": [
+        "kind"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL kind",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_label_check",
+      "type": "c",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(label)) > 0))",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_label_not_null",
+      "type": "n",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL label",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "reference_resource_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_reference_resource_kind_code",
+      "type": "u",
+      "columns": [
+        "kind",
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (kind, code)",
+      "table_name": "reference_resource",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_code_check",
+      "type": "c",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(code)) > 0))",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_code_key",
+      "type": "u",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (code)",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_code_not_null",
+      "type": "n",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL code",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_label_check",
+      "type": "c",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(label)) > 0))",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_label_not_null",
+      "type": "n",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL label",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "resource_group",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_group_id_fkey",
+      "type": "f",
+      "columns": [
+        "group_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (group_id) REFERENCES resource_group(id)",
+      "table_name": "resource_group_member",
+      "referenced_table": "resource_group",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "resource_group_member_group_id_not_null",
+      "type": "n",
+      "columns": [
+        "group_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL group_id",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_pkey",
+      "type": "p",
+      "columns": [
+        "group_id",
+        "resource_id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (group_id, resource_id)",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_position_check",
+      "type": "c",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((\"position\" > 0))",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_position_not_null",
+      "type": "n",
+      "columns": [
+        "position"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL \"position\"",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "resource_group_member_resource_id_fkey",
+      "type": "f",
+      "columns": [
+        "resource_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (resource_id) REFERENCES reference_resource(id)",
+      "table_name": "resource_group_member",
+      "referenced_table": "reference_resource",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "resource_group_member_resource_id_not_null",
+      "type": "n",
+      "columns": [
+        "resource_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL resource_id",
+      "table_name": "resource_group_member",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_submission_project_reference",
+      "type": "c",
+      "columns": [
+        "project_reference"
+      ],
+      "deferrable": false,
+      "definition": "CHECK (((project_reference IS NULL) OR (((char_length(project_reference) >= 1) AND (char_length(project_reference) <= 200)) AND (project_reference !~ '^[[:space:]]|[[:space:]]$'::text))))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_submission_sample_reference",
+      "type": "c",
+      "columns": [
+        "sample_reference"
+      ],
+      "deferrable": false,
+      "definition": "CHECK (((sample_reference IS NULL) OR (((char_length(sample_reference) >= 1) AND (char_length(sample_reference) <= 200)) AND (sample_reference !~ '^[[:space:]]|[[:space:]]$'::text))))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_submission_state",
+      "type": "c",
+      "columns": [
+        "status",
+        "current_revision_no",
+        "submitted_at",
+        "project_reference",
+        "sample_reference",
+        "equipment_snapshot",
+        "reference_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((((status = 'draft'::text) AND (current_revision_no IS NULL) AND (submitted_at IS NULL)) OR ((status = 'submitted'::text) AND (current_revision_no IS NOT NULL) AND (submitted_at IS NOT NULL) AND (project_reference IS NOT NULL) AND (sample_reference IS NOT NULL) AND (equipment_snapshot IS NOT NULL) AND (reference_snapshot IS NOT NULL))))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "fk_submission_current_revision",
+      "type": "f",
+      "columns": [
+        "id",
+        "current_revision_no"
+      ],
+      "deferrable": true,
+      "definition": "FOREIGN KEY (id, current_revision_no) REFERENCES submission_revision(submission_id, revision_no) DEFERRABLE INITIALLY DEFERRED",
+      "table_name": "submission",
+      "referenced_table": "submission_revision",
+      "initially_deferred": true,
+      "referenced_columns": [
+        "submission_id",
+        "revision_no"
+      ]
+    },
+    {
+      "name": "submission_answers_check",
+      "type": "c",
+      "columns": [
+        "answers"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(answers) = 'object'::text))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_answers_not_null",
+      "type": "n",
+      "columns": [
+        "answers"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL answers",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "submission",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_current_revision_no_check",
+      "type": "c",
+      "columns": [
+        "current_revision_no"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((current_revision_no > 0))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_equipment_snapshot_check",
+      "type": "c",
+      "columns": [
+        "equipment_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(equipment_snapshot) = 'object'::text))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_reference_snapshot_check",
+      "type": "c",
+      "columns": [
+        "reference_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(reference_snapshot) = 'object'::text))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_status_check",
+      "type": "c",
+      "columns": [
+        "status"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((status = ANY (ARRAY['draft'::text, 'submitted'::text])))",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_status_not_null",
+      "type": "n",
+      "columns": [
+        "status"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL status",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_template_version_id_fkey",
+      "type": "f",
+      "columns": [
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (template_version_id) REFERENCES template_version(id)",
+      "table_name": "submission",
+      "referenced_table": "template_version",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_template_version_id_not_null",
+      "type": "n",
+      "columns": [
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL template_version_id",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_submission_id_template_version",
+      "type": "u",
+      "columns": [
+        "id",
+        "template_version_id"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (id, template_version_id)",
+      "table_name": "submission",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_access_level_check",
+      "type": "c",
+      "columns": [
+        "access_level"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((access_level = ANY (ARRAY['read'::text, 'edit'::text])))",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_access_level_not_null",
+      "type": "n",
+      "columns": [
+        "access_level"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL access_level",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_granted_at_not_null",
+      "type": "n",
+      "columns": [
+        "granted_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL granted_at",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_granted_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "granted_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (granted_by_user_id) REFERENCES app_user(id)",
+      "table_name": "submission_grant",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_grant_granted_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "granted_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL granted_by_user_id",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_pkey",
+      "type": "p",
+      "columns": [
+        "submission_id",
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (submission_id, user_id)",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_submission_id_fkey",
+      "type": "f",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (submission_id) REFERENCES submission(id)",
+      "table_name": "submission_grant",
+      "referenced_table": "submission",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_grant_submission_id_not_null",
+      "type": "n",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL submission_id",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_grant_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (user_id) REFERENCES app_user(id)",
+      "table_name": "submission_grant",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_grant_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL user_id",
+      "table_name": "submission_grant",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_revision_project_reference",
+      "type": "c",
+      "columns": [
+        "project_reference"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((((char_length(project_reference) >= 1) AND (char_length(project_reference) <= 200)) AND (project_reference !~ '^[[:space:]]|[[:space:]]$'::text)))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "ck_revision_sample_reference",
+      "type": "c",
+      "columns": [
+        "sample_reference"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((((char_length(sample_reference) >= 1) AND (char_length(sample_reference) <= 200)) AND (sample_reference !~ '^[[:space:]]|[[:space:]]$'::text)))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_answers_check",
+      "type": "c",
+      "columns": [
+        "answers"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(answers) = 'object'::text))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_answers_not_null",
+      "type": "n",
+      "columns": [
+        "answers"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL answers",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_correction_reason_check",
+      "type": "c",
+      "columns": [
+        "correction_reason"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((char_length(correction_reason) <= 1000))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "submission_revision",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_revision_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_equipment_snapshot_check",
+      "type": "c",
+      "columns": [
+        "equipment_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(equipment_snapshot) = 'object'::text))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_equipment_snapshot_not_null",
+      "type": "n",
+      "columns": [
+        "equipment_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL equipment_snapshot",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_project_reference_not_null",
+      "type": "n",
+      "columns": [
+        "project_reference"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL project_reference",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_reference_snapshot_check",
+      "type": "c",
+      "columns": [
+        "reference_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(reference_snapshot) = 'object'::text))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_reference_snapshot_not_null",
+      "type": "n",
+      "columns": [
+        "reference_snapshot"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL reference_snapshot",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_revision_no_check",
+      "type": "c",
+      "columns": [
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((revision_no > 0))",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_revision_no_not_null",
+      "type": "n",
+      "columns": [
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL revision_no",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_sample_reference_not_null",
+      "type": "n",
+      "columns": [
+        "sample_reference"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL sample_reference",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "submission_revision_submission_id_fkey",
+      "type": "f",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (submission_id) REFERENCES submission(id)",
+      "table_name": "submission_revision",
+      "referenced_table": "submission",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "submission_revision_submission_id_not_null",
+      "type": "n",
+      "columns": [
+        "submission_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL submission_id",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_submission_revision_number",
+      "type": "u",
+      "columns": [
+        "submission_id",
+        "revision_no"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (submission_id, revision_no)",
+      "table_name": "submission_revision",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_created_by_user_id_fkey",
+      "type": "f",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (created_by_user_id) REFERENCES app_user(id)",
+      "table_name": "template_version",
+      "referenced_table": "app_user",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "template_version_created_by_user_id_not_null",
+      "type": "n",
+      "columns": [
+        "created_by_user_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_by_user_id",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_definition_check",
+      "type": "c",
+      "columns": [
+        "definition"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((jsonb_typeof(definition) = 'object'::text))",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_definition_not_null",
+      "type": "n",
+      "columns": [
+        "definition"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL definition",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_template_id_fkey",
+      "type": "f",
+      "columns": [
+        "template_id"
+      ],
+      "deferrable": false,
+      "definition": "FOREIGN KEY (template_id) REFERENCES form_template(id)",
+      "table_name": "template_version",
+      "referenced_table": "form_template",
+      "initially_deferred": false,
+      "referenced_columns": [
+        "id"
+      ]
+    },
+    {
+      "name": "template_version_template_id_not_null",
+      "type": "n",
+      "columns": [
+        "template_id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL template_id",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_version_no_check",
+      "type": "c",
+      "columns": [
+        "version_no"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((version_no > 0))",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "template_version_version_no_not_null",
+      "type": "n",
+      "columns": [
+        "version_no"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL version_no",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "uq_template_version_number",
+      "type": "u",
+      "columns": [
+        "template_id",
+        "version_no"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (template_id, version_no)",
+      "table_name": "template_version",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_active_not_null",
+      "type": "n",
+      "columns": [
+        "active"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL active",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_code_check",
+      "type": "c",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(code)) > 0))",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_code_key",
+      "type": "u",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "UNIQUE (code)",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_code_not_null",
+      "type": "n",
+      "columns": [
+        "code"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL code",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_created_at_not_null",
+      "type": "n",
+      "columns": [
+        "created_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL created_at",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_dimension_check",
+      "type": "c",
+      "columns": [
+        "dimension"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(dimension)) > 0))",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_dimension_not_null",
+      "type": "n",
+      "columns": [
+        "dimension"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL dimension",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_id_not_null",
+      "type": "n",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL id",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_label_check",
+      "type": "c",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(label)) > 0))",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_label_not_null",
+      "type": "n",
+      "columns": [
+        "label"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL label",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_lock_version_check",
+      "type": "c",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((lock_version > 0))",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_lock_version_not_null",
+      "type": "n",
+      "columns": [
+        "lock_version"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL lock_version",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_pkey",
+      "type": "p",
+      "columns": [
+        "id"
+      ],
+      "deferrable": false,
+      "definition": "PRIMARY KEY (id)",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_symbol_check",
+      "type": "c",
+      "columns": [
+        "symbol"
+      ],
+      "deferrable": false,
+      "definition": "CHECK ((length(btrim(symbol)) > 0))",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_symbol_not_null",
+      "type": "n",
+      "columns": [
+        "symbol"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL symbol",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    },
+    {
+      "name": "unit_updated_at_not_null",
+      "type": "n",
+      "columns": [
+        "updated_at"
+      ],
+      "deferrable": false,
+      "definition": "NOT NULL updated_at",
+      "table_name": "unit",
+      "referenced_table": null,
+      "initially_deferred": false,
+      "referenced_columns": []
+    }
+  ]
+}

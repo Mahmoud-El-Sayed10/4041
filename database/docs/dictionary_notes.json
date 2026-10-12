@@ -1,0 +1,322 @@
+{
+  "version": "2026-10-12-complete-English",
+  "tables": {
+    "app_role": {
+      "purpose": "Closed initial role vocabulary: admin and researcher. These are application roles, not PostgreSQL login roles.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "code": "Application role code: admin or researcher. This is not a PostgreSQL login role; the same person may have both.",
+        "label": "Display label for the application role; authorization uses code, not this label."
+      },
+      "service_rules": [
+        "Only the seeded admin/researcher codes are allowed. Adding a new application role requires a reviewed migration. Labels do not define permissions."
+      ]
+    },
+    "app_user": {
+      "purpose": "Stable local identity; disabling a user preserves historical authorship.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "display_name": "Current displayed name of the person; not unique and not an authentication identifier. Exports capture the displayed name at export time.",
+        "active": "Whether the local account may use the application. The backend checks this on every request; deactivation preserves authorship.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger."
+      },
+      "service_rules": [
+        "Enforce active-account checks on every request; preserve at least one active administrator during role/account changes."
+      ]
+    },
+    "app_user_role": {
+      "purpose": "Many-to-many assignment. One person may hold both roles.",
+      "columns": {
+        "user_id": "User receiving the application role; first component of the composite primary key.",
+        "role_id": "Assigned application role; second component of the composite primary key."
+      },
+      "service_rules": [
+        "Authorize every grant/revocation as an administrative action and record it in audit_event in the same transaction. A user may have no roles, one role or both roles."
+      ]
+    },
+    "audit_event": {
+      "purpose": "Append-only action metadata. Object ID is a polymorphic trace; no scientific answers or secrets belong here.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "actor_user_id": "Existing local user who performed or initiated the recorded action. SQL does not check that the account is currently active.",
+        "action": "Controlled event code. Accepted values are listed below; the backend chooses the code, not the client.",
+        "object_type": "Controlled type of the affected object. Its compatibility with action is a backend rule, not a cross-field SQL CHECK.",
+        "object_id": "Required UUID identifying the affected object for audit trace. Polymorphic and deliberately not an FK.",
+        "details": "Metadata-only JSON object. SQL checks object shape but cannot prevent scientific answers, credentials or secrets; the backend must exclude them.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction."
+      },
+      "service_rules": [
+        "Record allowed administrative/share/archive/export actions in the same transaction as the mutation. Choose compatible action/object_type values and supply an existing actor.",
+        "Restrict details to necessary metadata; do not store scientific answer payloads, passwords, access tokens or other secrets."
+      ]
+    },
+    "auth_identity": {
+      "purpose": "Verified external identity attached to a local user; issuer + subject identifies one account.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "user_id": "Local account associated with this verified external identity. This association cannot be reassigned by an UPDATE.",
+        "issuer": "Identity-provider issuer identifier. It is paired with subject for uniqueness; no particular OIDC provider is configured by this schema.",
+        "subject": "Stable subject identifier issued by that provider. Never use display name or email alone to match a local account.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction."
+      },
+      "service_rules": [
+        "Attach only identities verified by the configured provider. Provider configuration and authentication are outside this schema; do not link accounts by email alone."
+      ]
+    },
+    "equipment": {
+      "purpose": "Machine catalog. Deactivate instead of deleting; its code and identity are stable.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "code": "Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.",
+        "name": "Current machine name. The finalized equipment snapshot preserves its historical displayed name.",
+        "description": "Optional descriptive text. SQL imposes no length limit on this column.",
+        "active": "Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger."
+      },
+      "service_rules": [
+        "Require an active machine for a new response; existing saved drafts may continue with a deactivation warning. Serialize metadata changes with snapshot capture."
+      ]
+    },
+    "experiment": {
+      "purpose": "An ordered composition owned by its creator. Empty or incomplete compositions can be saved.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "created_by_user_id": "Original researcher who created and owns the experiment; ownership is immutable.",
+        "title": "Current experiment title. Each export captures the title that existed when that export was requested.",
+        "description": "Optional descriptive text. SQL imposes no length limit on this column.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.",
+        "archived_at": "Archive timestamp; NULL means unarchived. The backend controls archive/restore and blocks ordinary edits while archived."
+      },
+      "service_rules": [
+        "The owner controls sharing/archive/restore. Sharing an experiment does not grant access to its source submissions.",
+        "Allow empty/incomplete experiments; completeness for export is derived from their steps. Archive freezes ordinary metadata, composition, ordering and pins, not linked submissions."
+      ]
+    },
+    "experiment_export": {
+      "purpose": "One immutable capture and PDF attempt, with per-creator request idempotency.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "experiment_id": "Experiment whose composition was captured; retained even if its current steps later change.",
+        "created_by_user_id": "Researcher who requested this export; part of the request-idempotency uniqueness key.",
+        "request_id": "UUID for an idempotent export request, unique per requester. The backend also compares request content before treating a repeated key as a replay.",
+        "source_lock_version": "Positive experiment lock_version captured for this request. Historical version evidence, not an FK or an automatic comparison with the current experiment.",
+        "report_format_version": "Identifier of the renderer/report format used for this captured report. Frozen with the export; no separate format catalog is assumed.",
+        "status": "Rendering attempt state: pending, ready or failed. SQL validates output metadata for each state and freezes terminal attempts.",
+        "manifest": "Immutable complete JSON capture of the report context, order and displayed names. SQL checks only that it is an object; the backend ensures agreement with export items.",
+        "pdf_storage_key": "Opaque private storage key. NULL while pending/failed; required and nonblank when ready. It is not a public URL or an authorization credential.",
+        "pdf_sha256": "SHA-256 file digest encoded as exactly 64 lowercase hexadecimal characters. NULL while pending/failed; required when ready. The backend verifies it against file bytes.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "completed_at": "NULL while pending; required completion/failure timestamp for ready/failed. SQL does not enforce chronological ordering against created_at."
+      },
+      "service_rules": [
+        "Capture a nonempty complete experiment with all sources readable, its immutable manifest and all ordered items in one transaction.",
+        "Validate request-id replay content, freeze the item set immediately after capture, render only captured content and verify the file hash before ready.",
+        "Re-check current rights to the experiment and every historical source on each download, even when current steps were removed."
+      ]
+    },
+    "experiment_export_item": {
+      "purpose": "Ordered reference to an exact revision. Source step ID is historical trace, not a foreign key.",
+      "columns": {
+        "export_id": "Parent saved export capture; part of the composite primary key.",
+        "position": "Positive frozen display order inside this export. Together with export_id identifies one item.",
+        "source_step_id": "Required UUID tracing the original current step. Deliberately not an FK so deleting the current step preserves this export.",
+        "submission_id": "Source submission identifier, paired with revision_no to reference one exact immutable revision.",
+        "revision_no": "Revision of that same submission captured by this export. Not globally unique and not automatically advanced after correction."
+      },
+      "service_rules": [
+        "Create all items with the manifest in the capture transaction. No later additions are allowed by service policy; SQL blocks UPDATE/DELETE but does not block INSERT after capture or completion.",
+        "Require contiguous positions and exact agreement with the captured manifest and chosen revisions. The trace UUID does not require a current step to exist."
+      ]
+    },
+    "experiment_grant": {
+      "purpose": "Explicit read/edit grant for an experiment; it grants no implicit access to underlying submissions.",
+      "columns": {
+        "experiment_id": "Experiment shared by this current grant; part of the composite primary key.",
+        "user_id": "Named recipient of the experiment grant. This grant never implicitly shares the experiment’s source submissions.",
+        "access_level": "Explicit grant level: read or edit. Edit includes read but does not confer sharing, archive or ownership rights.",
+        "granted_by_user_id": "User who most recently issued or changed the grant. The backend must verify that this actor owns the target object.",
+        "granted_at": "Timestamp of the current grant issuance; the backend refreshes it when regranting or changing the grant.",
+        "revoked_at": "NULL means the grant is unrevoked; otherwise this is its revocation time. An unrevoked row alone does not establish authorization."
+      },
+      "service_rules": [
+        "Only the experiment owner may issue, change or revoke this grant. Independently authorize every referenced submission for read/edit/export.",
+        "Reuse the same target/recipient row for regrant; refresh grant metadata, clear revoked_at when authorized and append audit events."
+      ]
+    },
+    "experiment_step": {
+      "purpose": "Planned template version, optionally attached to a submission and a selected finalized revision.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "experiment_id": "Experiment containing this current step. The step cannot be moved to another experiment by UPDATE.",
+        "template_version_id": "Required planned template version even before a submission exists. An attached submission must use this same version.",
+        "submission_id": "Optional attached execution. A non-NULL submission can appear in at most one current step across all experiments.",
+        "pinned_revision_no": "Optional selected revision number belonging to the attached submission. A non-NULL value requires submission_id; later corrections do not automatically change this pin.",
+        "position": "Positive order within the experiment. Uniqueness is deferrable to allow reordering; the backend checks final contiguous positions and the 100-step limit."
+      },
+      "service_rules": [
+        "Permit changing the planned version only while no submission is attached. SQL fixes id/experiment_id, not this higher-level transition rule.",
+        "Attaching an existing source requires edit on experiment and source, a nonarchived source, matching template version and no other current assignment.",
+        "Attach a finalized source with its current revision pinned. First finalization of an attached draft pins revision 1 only if the experiment is active. SQL allows a NULL pin on an attached finalized source.",
+        "Later corrections require an explicit pin update with experiment edit and source read. Deleting/detaching a step leaves its submission and all old export items intact."
+      ]
+    },
+    "form_template": {
+      "purpose": "Reusable template identity attached permanently to one machine. Current name follows the latest version title.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "equipment_id": "The single machine to which this reusable template belongs. The association is fixed after creation.",
+        "created_by_user_id": "User who originally created the template. Template-management authorization requires the admin role in the backend.",
+        "name": "Current template catalog name, synchronized by the backend with the newest definition title. Historical rendering uses the versioned title.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "archived_at": "Template archive timestamp. NULL means available, subject to the machine being active. Existing submissions retain their original version."
+      },
+      "service_rules": [
+        "Create the template and its first version in one transaction. SQL permits zero child versions; the service must enforce the initial version.",
+        "Create/save versions only for authorized admins. Synchronize name with the newest definition title and check the expected lock_version."
+      ]
+    },
+    "reference_resource": {
+      "purpose": "Administered reference values, initially materials. Stable kind/code; labels are snapshotted on finalization.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "kind": "Open text resource category, initially material. This is not a closed SQL enum. The category is fixed after creation.",
+        "code": "Stable resource code, unique only together with kind. A new identity is required when the resource meaning changes.",
+        "label": "Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.",
+        "description": "Optional descriptive text. SQL imposes no length limit on this column.",
+        "active": "Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger."
+      },
+      "service_rules": [
+        "Authorize catalog administration and serialize changes with snapshot capture. New selections must be active and allowed; retain an inactive saved choice only with proof at the same submission/field/instance/ID."
+      ]
+    },
+    "resource_group": {
+      "purpose": "Reusable group restricting available reference values.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "code": "Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.",
+        "label": "Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.",
+        "active": "Whether this group is eligible for new reference selections. Saved inactive choices require backend proof of prior use in the same field/instance.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger."
+      },
+      "service_rules": [
+        "Validate group eligibility when saving definitions or new choices; check member and resource eligibility as well. Deactivation does not delete memberships."
+      ]
+    },
+    "resource_group_member": {
+      "purpose": "Membership and display order. A removed member becomes inactive; the link is retained.",
+      "columns": {
+        "group_id": "Group containing the resource; first component of the retained membership primary key.",
+        "resource_id": "Resource included in the group; second component of the retained membership primary key.",
+        "position": "Positive display position, unique within the group only for active memberships. Inactive rows may reuse a position.",
+        "active": "Whether this membership currently permits new selections. Remove a membership by setting false, rather than deleting its row."
+      },
+      "service_rules": [
+        "Require a valid active group, member and resource for new selections. A saved inactive membership may be retained only with occurrence-level proof.",
+        "Reorder active members transactionally using temporary positive positions or temporary deactivation. This partial unique index is not deferrable."
+      ]
+    },
+    "submission": {
+      "purpose": "One research execution; mutable draft or synchronized current finalized revision. Creator is the owner.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "template_version_id": "Exact template version used for this execution; fixed for drafts, finalization and every later correction.",
+        "created_by_user_id": "Original researcher who created this execution and owns it. Ownership is immutable.",
+        "status": "draft or submitted. Finalization requires a current revision, project/sample context, snapshots and first-submission timestamp.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "current_revision_no": "NULL for a draft; positive current finalized revision number for submitted. Together with this row id, references a revision of this same submission.",
+        "project_reference": "System project context: optional in draft, required when submitted; 1–200 characters when present, without leading/trailing whitespace. Not a catalog FK or unique key.",
+        "sample_reference": "System sample context: optional in draft, required when submitted; 1–200 characters when present, without leading/trailing whitespace. Does not define ownership or inventory membership.",
+        "answers": "Current JSON answer object. Drafts retain saved hidden fields/inactive repeat instances; submitted content is the active projection synchronized with the current revision by the backend.",
+        "equipment_snapshot": "Historical equipment context JSON object. SQL permits NULL or an object in draft, but requires an object when submitted. Snapshot completeness is a backend rule.",
+        "reference_snapshot": "Historical resource/unit context JSON object. Optional in draft, required when submitted; an empty object is valid when no references are used.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger.",
+        "submitted_at": "NULL for a draft; time of first finalization for a submitted execution. A trigger preserves it through all later corrections.",
+        "archived_at": "Archive timestamp; NULL means unarchived. The backend controls archive/restore and blocks ordinary edits while archived."
+      },
+      "service_rules": [
+        "Merge explicit draft changes without erasing omitted hidden values. Finalization computes the active projection and validates all system context.",
+        "Insert each new revision and synchronize current answers, snapshots and project/sample context atomically. Require exactly the next revision number; SQL does not prove current-copy equality or +1 progression.",
+        "A draft has zero finalized revisions by service policy; SQL does not prohibit a raw INSERT into submission_revision while its parent is still draft.",
+        "Check active researcher, ownership/edit access, archive state and expected lock_version with the mutation. Archives do not revoke otherwise authorized history reads."
+      ]
+    },
+    "submission_grant": {
+      "purpose": "Explicit read/edit grant to one named user; revocation retains the current grant row.",
+      "columns": {
+        "submission_id": "Submission shared by this current grant; part of the composite primary key.",
+        "user_id": "Named recipient of the submission grant. Read permits finalized history; edit also permits drafts and corrections, subject to current authorization.",
+        "access_level": "Explicit grant level: read or edit. Edit includes read but does not confer sharing, archive or ownership rights.",
+        "granted_by_user_id": "User who most recently issued or changed the grant. The backend must verify that this actor owns the target object.",
+        "granted_at": "Timestamp of the current grant issuance; the backend refreshes it when regranting or changing the grant.",
+        "revoked_at": "NULL means the grant is unrevoked; otherwise this is its revocation time. An unrevoked row alone does not establish authorization."
+      },
+      "service_rules": [
+        "Only the submission owner may issue, change or revoke this grant. Require an active researcher recipient for research access.",
+        "Reuse the same target/recipient row for regrant; refresh grant metadata, clear revoked_at when authorized and append audit events. The row is not the complete grant history."
+      ]
+    },
+    "submission_revision": {
+      "purpose": "Immutable finalized answers and context. Revision numbers are local to a submission.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "submission_id": "Execution whose finalized state is captured. The pair with revision_no is the natural revision key.",
+        "revision_no": "Positive revision number within that submission. Revision 1 is the first finalization; later consecutive numbers are allocated by the backend.",
+        "created_by_user_id": "Researcher who finalized this revision, including an authorized editor; may differ from the execution owner.",
+        "correction_reason": "Optional explanation of a correction, at most 1,000 characters. SQL does not require it or restrict it to revisions after the first.",
+        "project_reference": "Immutable project context for this revision; required, 1–200 characters, no leading/trailing whitespace.",
+        "sample_reference": "Immutable sample context for this revision; required, 1–200 characters, no leading/trailing whitespace.",
+        "answers": "Complete immutable active answer projection at this finalization. Old revisions are not modified by later corrections.",
+        "equipment_snapshot": "Immutable equipment identity/code/name context; required JSON object. Corrections retain the base equipment context by backend policy.",
+        "reference_snapshot": "Immutable resource/unit contexts used by active answers. Required JSON object; may be empty when no resource/unit is used.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction."
+      },
+      "service_rules": [
+        "Create revision 1 at first finalization, then append one full revision per accepted correction. Validate full active content and authoritative snapshots before insertion.",
+        "Retain the equipment context on correction; retain known per-ID reference contexts from the expected current base and capture newly used IDs. Never replace old snapshots with live catalog labels."
+      ]
+    },
+    "template_version": {
+      "purpose": "Immutable definition including title, instructions, fields, options and rules. Version numbers are local to a template.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "template_id": "Reusable template whose definition is frozen by this row.",
+        "version_no": "Positive version number within one template; not globally unique. The backend allocates consecutive numbers under the template lock.",
+        "created_by_user_id": "Author of this version. May differ from the original template creator.",
+        "definition": "Complete immutable JSON object containing schema format, title, instructions, ordered field nodes, options and rules. SQL checks object shape only.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction."
+      },
+      "service_rules": [
+        "Validate all nodes, field IDs, types, options, rule dependencies and reference choices. Allocate version numbers consecutively under the template lock; SQL guarantees positivity and uniqueness, not sequence."
+      ]
+    },
+    "unit": {
+      "purpose": "Unit vocabulary. Code and dimension are stable; no conversion table is assumed.",
+      "columns": {
+        "id": "Stable UUID identifying this row. Generated on insertion unless supplied by trusted server code.",
+        "code": "Stable catalog code. The key definition below specifies its uniqueness scope; updates to this code are forbidden by a trigger.",
+        "symbol": "Current unit symbol used for display. Historical revisions retain the captured symbol.",
+        "label": "Human-readable current catalog label. Changing it does not rewrite labels already preserved in historical snapshots.",
+        "dimension": "Stable open text dimension, such as mass. This is not a SQL enum; the backend validates dimension compatibility and allowed units.",
+        "active": "Whether this catalog entry is available for new selections. Deactivation retains the row and existing historical references; eligibility is checked by the backend.",
+        "lock_version": "Positive optimistic-concurrency counter. The backend compares the expected value and increments it on successful mutations; SQL only checks positivity.",
+        "created_at": "Server-controlled creation timestamp; the SQL default is the start time of the inserting transaction.",
+        "updated_at": "Timestamp of the latest successful mutation. The backend must set it on updates; there is no automatic update trigger."
+      },
+      "service_rules": [
+        "Validate numeric value separately from unit identity and dimension. No unit conversion or silent rounding is included."
+      ]
+    }
+  }
+}

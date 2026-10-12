@@ -1,0 +1,21 @@
+# Run from database/: docker compose --env-file .env up -d
+# This database owner is for local migrations/tests, not the Flask runtime account.
+name: yes4041
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: yes4041
+      POSTGRES_USER: yes4041_migrator
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in database/.env}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5433}:5432"
+    volumes:
+      - yes4041_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yes4041_migrator -d yes4041"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+volumes:
+  yes4041_data:
