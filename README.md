@@ -1,8 +1,13 @@
 # 4041
 
-Application developed as part of our university project.
+# Gestionnaire de procédés (CNRS · IEMN · CROW)
 
-Pour lancer le serveur il fonctionne sur ce port:  http://localhost:5173/
+Application permettant aux chercheurs de créer des formulaires, les remplir pour enregistrer les paramètres de leurs expériences.
+
+## Pour lancerLancer le serveur: 
+cd frontend
+npm run dev
+Puis ouvrir http://localhost:5173 dans le navigateur.
 
 ## Components
 - Backend
