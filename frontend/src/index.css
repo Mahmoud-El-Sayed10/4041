@@ -5,6 +5,12 @@
   --surface: #FFFFFF;
   --border: #DCDFDA;
   --accent: #0E6B70;
+
+  --accent-hover: #09575B;
+  --accent-light: #E5F2F0;
+  --danger: #B42318;
+  --danger-light: #FFF2F1;
+
   font-family: system-ui, sans-serif;
   color: var(--ink);
 }
