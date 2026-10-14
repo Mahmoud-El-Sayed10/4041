@@ -6,6 +6,7 @@ Application permettant aux chercheurs de créer des formulaires, les remplir pou
 
 ## Pour lancerLancer le serveur: 
 cd frontend
+npm install
 npm run dev
 Puis ouvrir http://localhost:5173 dans le navigateur.
 
