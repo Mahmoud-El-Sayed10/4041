@@ -1,18 +1,41 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
 import FieldPalette from '../components/formBuilder/FieldPalette.jsx'
 import FormEditor from '../components/formBuilder/FormEditor.jsx'
 import FieldProperties from '../components/formBuilder/FieldProperties.jsx'
+import { enregistrerModele, lireModele } from '../utils/modeles.js'
 import './FormBuilder.css'
 
+// Page affichée pour /modeles/nouveau et /modeles/:id/modifier.
+// La « key » remet le formulaire à zéro quand on passe d'un modèle à un autre.
 function FormBuilder() {
-  const [nomModele, setNomModele] = useState('')
-  const [champs, setChamps] = useState([])
+  const { id } = useParams()
+  return <EditeurModele key={id || 'nouveau'} id={id} />
+}
+
+function EditeurModele({ id }) {
+  // En modification, on recharge le modèle enregistré
+  const [modeleExistant] = useState(() => (id ? lireModele(id) : null))
+  const [searchParams] = useSearchParams()
+
+  // Identifiant créé une seule fois : enregistrer plusieurs fois met à jour le même modèle
+  const [modeleId] = useState(() => modeleExistant?.id || crypto.randomUUID())
+  const [nomModele, setNomModele] = useState(modeleExistant?.nom || '')
+  const [champs, setChamps] = useState(modeleExistant?.champs || [])
   const [champSelectionne, setChampSelectionne] = useState(null)
   const [apercu, setApercu] = useState(false)
   const [message, setMessage] = useState('')
 
   const champActif = champs.find(champ => champ.id === champSelectionne)
+
+  // Bouton « Exporter » du tableau de bord : on ouvre directement la fenêtre PDF
+  useEffect(() => {
+    if (searchParams.get('export') === '1' && modeleExistant) {
+      const timer = setTimeout(() => window.print(), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [searchParams, modeleExistant])
 
   function ajouterChamp(type, nom) {
     const nouveauChamp = {
@@ -47,42 +70,47 @@ function FormBuilder() {
     })
   }
 
-  function sauvegarder(statut) {
+  function sauvegarder() {
     if (!nomModele.trim()) {
       setMessage('Veuillez renseigner le nom du modèle.')
       return
     }
-    if (statut === 'publie' && champs.length === 0) {
-      setMessage('Ajoutez au moins un champ avant de publier.')
+
+    enregistrerModele({
+      id: modeleId,
+      nom: nomModele.trim(),
+      champs,
+      dateModification: new Date().toISOString()
+    })
+    setMessage('Modèle enregistré avec succès.')
+  }
+
+  function exporterPdf() {
+    if (champs.length === 0) {
+      setMessage('Ajoutez au moins un champ avant d’exporter en PDF.')
       return
     }
-
-    const modele = {
-      id: crypto.randomUUID(),
-      nom: nomModele,
-      statut,
-      champs
-    }
-
-    localStorage.setItem('modele-brouillon', JSON.stringify(modele))
-    setMessage(statut === 'publie'
-      ? 'Modèle publié localement (démonstration).'
-      : 'Brouillon enregistré.')
+    setMessage('')
+    // Ouvre la fenêtre d'impression du navigateur : choisir « Enregistrer au format PDF »
+    window.print()
   }
 
   return (
     <div className="form-builder">
       <header className="builder-header">
         <div>
-          <h1>Créer un modèle</h1>
+          <h1>{modeleExistant ? 'Modifier le modèle' : 'Créer un modèle'}</h1>
           <p>Construisez un formulaire pour vos équipements.</p>
         </div>
         <div className="builder-actions">
           <button type="button" className="btn-preview" onClick={() => setApercu(!apercu)}>
             {apercu ? 'Quitter l’aperçu' : 'Aperçu'}
           </button>
-          <button type="button" className="btn-publish" onClick={() => sauvegarder('brouillon')}>
-            Enregistrer le template
+          <button type="button" className="btn-preview" onClick={exporterPdf}>
+            Exporter en PDF
+          </button>
+          <button type="button" className="btn-publish" onClick={sauvegarder}>
+            Enregistrer
           </button>
         </div>
       </header>

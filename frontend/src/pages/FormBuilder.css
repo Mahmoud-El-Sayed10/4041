@@ -370,3 +370,15 @@
   .builder-actions button { flex: 1; }
   .builder-canvas { padding: 14px; }
 }
+/* Export PDF : on n'imprime que le nom du modèle et le formulaire */
+@media print {
+  .sidebar, .builder-actions, .builder-message, .builder-panel,
+  .field-toolbar, .canvas-heading span, .builder-header p {
+    display: none !important;
+  }
+  .content, .form-builder { padding: 0; background: #fff; }
+  .builder-workspace { display: block; }
+  .builder-info, .builder-canvas { border: none; padding: 0; }
+  .canvas-field { border: 1px solid var(--border); box-shadow: none; break-inside: avoid; }
+  .canvas-field :is(input, select, textarea):disabled { background: #fff; }
+}

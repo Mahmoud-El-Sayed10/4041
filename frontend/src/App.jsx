@@ -9,6 +9,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/modeles/nouveau" element={<FormBuilder />} />
+        <Route path="/modeles/:id/modifier" element={<FormBuilder />} />
       </Route>
     </Routes>
   )

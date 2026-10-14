@@ -44,3 +44,16 @@
 .template-list li {
   display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--border);
 }
+.template-list li { gap: 12px; color: var(--muted); font-size: 14px; }
+.template-list strong { color: var(--ink); }
+
+.template-list li { align-items: center; flex-wrap: wrap; }
+.template-info { display: flex; flex-direction: column; gap: 2px; }
+.template-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.template-actions button {
+  min-height: 36px; padding: 0 14px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer;
+}
+.template-actions button:hover { border-color: var(--accent); color: var(--accent); }
+.template-actions button.danger { color: var(--danger); }
+.template-actions button.danger:hover { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }

@@ -9,7 +9,7 @@ function afficherChamp(champ, apercu) {
       return (
         <input
           type="text"
-          placeholder="Saisir un texte..."
+          placeholder={champ.description || 'Saisir un texte...'}
           disabled={desactive}
         />
       )
@@ -17,7 +17,7 @@ function afficherChamp(champ, apercu) {
     case 'textarea':
       return (
         <textarea
-          placeholder="Saisir un texte..."
+          placeholder={champ.description || 'Saisir un texte...'}
           rows="3"
           disabled={desactive}
         />
@@ -28,7 +28,7 @@ function afficherChamp(champ, apercu) {
         <div className="field-with-unit">
           <input
             type="number"
-            placeholder="0"
+            placeholder={champ.description || '0'}
             min={champ.min === '' ? undefined : champ.min}
             max={champ.max === '' ? undefined : champ.max}
             disabled={desactive}
@@ -166,7 +166,8 @@ function FormEditor({
 
               {afficherChamp(champ, apercu)}
 
-              {champ.description && champ.type !== 'section' && (
+              {/* Pour texte, texte long et nombre, la description s'affiche DANS le cadre */}
+              {champ.description && !['section', 'text', 'textarea', 'number'].includes(champ.type) && (
                 <small className="field-help">
                   {champ.description}
                 </small>
