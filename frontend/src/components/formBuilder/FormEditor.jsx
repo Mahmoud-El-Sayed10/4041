@@ -1,3 +1,5 @@
+import Icon from '../Icon.jsx'
+import { infoType } from './typesChamps.js'
 
 const materiaux = ['Or', 'Argent', 'Cuivre', 'Silicium']
 
@@ -85,7 +87,7 @@ function FormEditor({
   onSupprimer
 }) {
   return (
-    <section className={`builder-canvas ${apercu ? 'preview-mode' : ''}`}>
+    <section className={`builder-canvas ${apercu ? 'preview-mode' : 'graph-paper'}`}>
       <div className="canvas-heading">
         <h2>
           {apercu ? 'Aperçu du formulaire' : 'Construction du formulaire'}
@@ -116,7 +118,10 @@ function FormEditor({
             >
               {!apercu && (
                 <div className="field-toolbar">
-                  <span>{champ.type}</span>
+                  <span className="field-type">
+                    <Icon name={infoType(champ.type).icone} size={14} />
+                    {infoType(champ.type).nom}
+                  </span>
 
                   <div>
                     <button
@@ -166,7 +171,6 @@ function FormEditor({
 
               {afficherChamp(champ, apercu)}
 
-              {/* Pour texte, texte long et nombre, la description s'affiche DANS le cadre */}
               {champ.description && !['section', 'text', 'textarea', 'number'].includes(champ.type) && (
                 <small className="field-help">
                   {champ.description}

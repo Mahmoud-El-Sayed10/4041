@@ -1,3 +1,5 @@
+import { infoType } from './typesChamps.js'
+
 function FieldProperties({ champ, onModifier, onSupprimer }) {
   return (
     <aside className="builder-panel">
@@ -12,7 +14,7 @@ function FieldProperties({ champ, onModifier, onSupprimer }) {
           />
 
           <label>Type de champ</label>
-          <input type="text" value={champ.type} disabled />
+          <input type="text" value={infoType(champ.type).nom} disabled />
 
           <label>Description / aide</label>
           <textarea

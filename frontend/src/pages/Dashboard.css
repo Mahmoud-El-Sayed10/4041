@@ -1,59 +1,90 @@
-.dashboard { display: flex; flex-direction: column; gap: 24px; max-width: 1100px; }
+.dashboard { display: flex; flex-direction: column; gap: 22px; max-width: 1080px; }
 
-/* A. Bandeau */
-.welcome {
-  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px;
-}
-.welcome h1 { margin: 4px 0; font-size: 28px; }
-.welcome-date { margin: 0; color: var(--muted); font-size: 14px; text-transform: capitalize; }
-.welcome-text { margin: 0; color: var(--muted); }
-
-/* Boutons */
+/* Boutons communs */
 .btn-primary, .btn-secondary {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px;
-  border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 0 18px; border-radius: 8px;
+  text-decoration: none; font-weight: 600; font-size: 14.5px; white-space: nowrap;
 }
 .btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: #0A4F53; }
+.btn-primary:hover { background: var(--accent-hover); }
 .btn-secondary { border: 1px solid var(--border); color: var(--ink); background: var(--surface); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+/* A. Bandeau d'accueil sur papier millimétré */
+.welcome {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px;
+  padding: 34px 34px 30px; border: 1px solid var(--border); border-radius: 14px;
+}
+.welcome-body { max-width: 560px; }
+.welcome-date { margin: 0 0 6px; color: var(--muted); font-size: 14px; }
+.welcome-date::first-letter { text-transform: uppercase; }
+.welcome h1 { margin: 0 0 10px; font-size: 40px; line-height: 1.1; font-weight: 600; }
+.welcome-text { margin: 0; color: var(--muted); font-size: 16px; }
 
 /* Cartes */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 12px; padding: 24px;
-}
-.card h2 { margin: 0 0 16px; font-size: 18px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 26px 28px; }
+.card h2 { margin: 0 0 20px; font-size: 18px; font-weight: 600; }
+.card-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.card-heading span { color: var(--muted); font-size: 13.5px; }
 
-/* C. Étapes */
-.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-.step { padding: 16px; border-radius: 10px; background: var(--bg); }
-.step h3 { margin: 10px 0 6px; font-size: 16px; }
-.step p { margin: 0; color: var(--muted); font-size: 14px; }
-.step-number {
-  display: inline-flex; width: 32px; height: 32px; border-radius: 50%;
-  align-items: center; justify-content: center;
-  background: var(--accent); color: #fff; font-weight: 600;
+/* C. Les 3 étapes, reliées par une ligne */
+.steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px;
+  position: relative;
 }
+.step:not(:last-child)::after {
+  content: ''; position: absolute; top: 17px; left: 46px; right: -18px;
+  border-top: 2px dashed var(--border);
+}
+.step { position: relative; display: flex; flex-direction: column; gap: 12px; }
+.step h3 { margin: 0 0 4px; font-size: 16px; font-weight: 600; }
+.step p { margin: 0; color: var(--muted); font-size: 14px; max-width: 30ch; }
+.step-number {
+  position: relative; z-index: 1;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface); border: 2px solid var(--accent); color: var(--accent);
+  font-weight: 700; font-size: 15px;
+}
+.step:first-child .step-number { background: var(--accent); color: #fff; }
 
 /* D. Modèles récents */
 .empty {
   display: flex; flex-direction: column; align-items: center; gap: 12px;
-  padding: 32px; border: 2px dashed var(--border); border-radius: 10px; color: var(--muted);
+  padding: 36px 20px; border: 1.5px dashed var(--border); border-radius: 12px;
+  color: var(--muted); text-align: center;
+}
+.empty p { margin: 0; }
+.empty-icon, .template-icon {
+  width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent-light); color: var(--accent);
 }
 .template-list { list-style: none; margin: 0; padding: 0; }
 .template-list li {
-  display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 14px 4px; border-top: 1px solid var(--border);
 }
-.template-list li { gap: 12px; color: var(--muted); font-size: 14px; }
-.template-list strong { color: var(--ink); }
+.template-list li:first-child { border-top: none; padding-top: 4px; }
+.template-info { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 2px; }
+.template-info strong { font-weight: 600; font-size: 15.5px; }
+.template-info span { color: var(--muted); font-size: 13.5px; }
 
-.template-list li { align-items: center; flex-wrap: wrap; }
-.template-info { display: flex; flex-direction: column; gap: 2px; }
-.template-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.template-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .template-actions button {
-  min-height: 36px; padding: 0 14px; border: 1px solid var(--border); border-radius: 8px;
-  background: var(--surface); color: var(--ink); font: inherit; font-size: 13px; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 36px; padding: 0 12px; border: 1px solid transparent; border-radius: 8px;
+  background: transparent; color: var(--muted); font-size: 13.5px; font-weight: 500; cursor: pointer;
 }
-.template-actions button:hover { border-color: var(--accent); color: var(--accent); }
-.template-actions button.danger { color: var(--danger); }
-.template-actions button.danger:hover { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }
+.template-actions button:hover { background: var(--accent-light); color: var(--accent-hover); }
+.template-actions button.danger:hover { background: var(--danger-light); color: var(--danger); }
+
+@media (max-width: 760px) {
+  .welcome { padding: 24px 20px; }
+  .welcome h1 { font-size: 32px; }
+  .steps { grid-template-columns: 1fr; gap: 18px; }
+  .step:not(:last-child)::after { display: none; }
+  .step { flex-direction: row; }
+}

@@ -5,21 +5,17 @@ import FieldPalette from '../components/formBuilder/FieldPalette.jsx'
 import FormEditor from '../components/formBuilder/FormEditor.jsx'
 import FieldProperties from '../components/formBuilder/FieldProperties.jsx'
 import { enregistrerModele, lireModele } from '../utils/modeles.js'
+import Icon from '../components/Icon.jsx'
 import './FormBuilder.css'
 
-// Page affichée pour /modeles/nouveau et /modeles/:id/modifier.
-// La « key » remet le formulaire à zéro quand on passe d'un modèle à un autre.
 function FormBuilder() {
   const { id } = useParams()
   return <EditeurModele key={id || 'nouveau'} id={id} />
 }
 
 function EditeurModele({ id }) {
-  // En modification, on recharge le modèle enregistré
   const [modeleExistant] = useState(() => (id ? lireModele(id) : null))
   const [searchParams] = useSearchParams()
-
-  // Identifiant créé une seule fois : enregistrer plusieurs fois met à jour le même modèle
   const [modeleId] = useState(() => modeleExistant?.id || crypto.randomUUID())
   const [nomModele, setNomModele] = useState(modeleExistant?.nom || '')
   const [champs, setChamps] = useState(modeleExistant?.champs || [])
@@ -29,7 +25,6 @@ function EditeurModele({ id }) {
 
   const champActif = champs.find(champ => champ.id === champSelectionne)
 
-  // Bouton « Exporter » du tableau de bord : on ouvre directement la fenêtre PDF
   useEffect(() => {
     if (searchParams.get('export') === '1' && modeleExistant) {
       const timer = setTimeout(() => window.print(), 300)
@@ -72,7 +67,7 @@ function EditeurModele({ id }) {
 
   function sauvegarder() {
     if (!nomModele.trim()) {
-      setMessage('Veuillez renseigner le nom du modèle.')
+      setMessage('Veuillez renseigner le nom du template.')
       return
     }
 
@@ -82,7 +77,7 @@ function EditeurModele({ id }) {
       champs,
       dateModification: new Date().toISOString()
     })
-    setMessage('Modèle enregistré avec succès.')
+    setMessage('Template enregistré avec succès.')
   }
 
   function exporterPdf() {
@@ -99,28 +94,33 @@ function EditeurModele({ id }) {
     <div className="form-builder">
       <header className="builder-header">
         <div>
-          <h1>{modeleExistant ? 'Modifier le modèle' : 'Créer un modèle'}</h1>
-          <p>Construisez un formulaire pour vos équipements.</p>
+          <h1>{modeleExistant ? 'Modifier le template' : 'Créer un template'}</h1>
+          <p>Ajoutez les champs que le chercheur remplira en utilisant la machine.</p>
         </div>
         <div className="builder-actions">
           <button type="button" className="btn-preview" onClick={() => setApercu(!apercu)}>
-            {apercu ? 'Quitter l’aperçu' : 'Aperçu'}
+            <Icon name={apercu ? 'edit' : 'eye'} size={16} />
+            {apercu ? 'Revenir à l’édition' : 'Aperçu'}
           </button>
           <button type="button" className="btn-preview" onClick={exporterPdf}>
+            <Icon name="download" size={16} />
             Exporter en PDF
           </button>
           <button type="button" className="btn-publish" onClick={sauvegarder}>
+            <Icon name="check" size={16} />
             Enregistrer
           </button>
         </div>
       </header>
 
-      {message && <div className="builder-message">{message}</div>}
+      {message && <div className={`builder-message ${message.includes('succès') ? 'is-success' : 'is-error'}`} role="status">{message}</div>}
 
       <section className="builder-info">
         <div>
-          <label>Nom du modèle</label>
+          <label htmlFor="nom-modele">Nom du template</label>
           <input
+            id="nom-modele"
+            placeholder="Ex. : Réglages du four de recuit"
             type="text"
             value={nomModele}
             onChange={e => setNomModele(e.target.value)}

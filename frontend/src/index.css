@@ -1,39 +1,82 @@
+/* Couleurs et polices communes à toute l'application */
 :root {
-  --ink: #17202A;
-  --muted: #5A6470;
-  --bg: #F4F5F2;
-  --surface: #FFFFFF;
-  --border: #DCDFDA;
-  --accent: #0E6B70;
-
-  --accent-hover: #09575B;
-  --accent-light: #E5F2F0;
+  --ink: #14232B;          /* texte principal, barre de gauche */
+  --muted: #56656C;        /* texte secondaire */
+  --bg: #F2F5F4;           /* fond de page (blanc « laboratoire ») */
+  --surface: #FFFFFF;      /* cartes et panneaux */
+  --border: #D5DDDB;       /* bordures */
+  --grid: #E4ECEA;         /* lignes du papier millimétré */
+  --accent: #0E6B70;       /* vert d'eau : couleur principale */
+  --accent-hover: #0A4F53;
+  --accent-light: #E3F0EF;
   --danger: #B42318;
-  --danger-light: #FFF2F1;
+  --danger-light: #FDF1F0;
 
-  font-family: system-ui, sans-serif;
+  --radius: 10px;
+  font-family: 'Instrument Sans', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink);
+  -webkit-font-smoothing: antialiased;
 }
 
+* { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); }
+h1, h2, h3 { letter-spacing: -0.01em; }
+button, input, select, textarea { font: inherit; }
 
+/* Contour visible au clavier (accessibilité) */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Papier millimétré : petit carreau + grand carreau */
+.graph-paper {
+  background-color: var(--surface);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--grid) 40%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--grid) 40%, transparent) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+}
+
+/* Mise en page générale */
 .layout { display: flex; min-height: 100vh; }
 
 .sidebar {
-  width: 232px;
+  position: sticky; top: 0; height: 100vh;
+  width: 236px; flex-shrink: 0;
   background: var(--ink);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  padding: 22px 14px;
+  display: flex; flex-direction: column; gap: 4px;
 }
-.sidebar-logo { color: #fff; font-weight: 600; padding: 0 12px 24px; }
-.sidebar-link {
-  color: #C9D1CE;
-  text-decoration: none;
-  padding: 11px 12px;
-  border-radius: 8px;
+.sidebar-logo { display: flex; align-items: center; gap: 11px; padding: 0 8px 26px; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; letter-spacing: 0.02em;
 }
-.sidebar-link.active { background: #2A3542; color: #fff; font-weight: 500; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.25; }
+.logo-title { color: #fff; font-weight: 600; font-size: 15px; }
+.logo-subtitle { color: #9DB0B3; font-size: 12.5px; }
 
-.content { flex: 1; padding: 32px 40px; }
+.sidebar-link {
+  display: flex; align-items: center; gap: 11px;
+  color: #BFCBCC; text-decoration: none;
+  padding: 10px 12px; border-radius: 8px; font-size: 14.5px;
+}
+.sidebar-link:hover { background: #1F323B; color: #fff; }
+.sidebar-link.active { background: #23404A; color: #fff; font-weight: 500; box-shadow: inset 3px 0 0 #5FB8B3; }
+
+.content { flex: 1; min-width: 0; padding: 36px 44px 56px; }
+
+@media (max-width: 760px) {
+  .layout { flex-direction: column; }
+  .sidebar { position: static; height: auto; width: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .sidebar-logo { padding: 0 8px 0 0; margin-right: auto; }
+  .content { padding: 24px 16px 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
